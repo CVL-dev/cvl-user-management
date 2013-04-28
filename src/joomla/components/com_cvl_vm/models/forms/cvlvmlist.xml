@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+  <fieldset>
+<!--
+    <field name="vm_server_name" type="text" size="40" class="inputbox" label="COM_CVL_VM_FORM_LBL_CVLVMLIST_VM_SERVER_NAME" description="COM_CVL_VM_FORM_DESC_CVLVMLIST_VM_SERVER_NAME" filter="safehtml" /> 
+-->
+    <field name="vm_server_name" type="text" size="80" class="inputbox" label="COM_CVL_VM_FORM_LBL_CVLVMLIST_VM_SERVER_NAME" description="COM_CVL_VM_FORM_DESC_CVLVMLIST_VM_SERVER_NAME" filter="safehtml" /> 
+<!--
+    <field name="vm_ip" type="text" size="40" class="inputbox" label="COM_CVL_VM_FORM_LBL_CVLVMLIST_VM_IP" description="COM_CVL_VM_FORM_DESC_CVLVMLIST_VM_IP" filter="safehtml" /> 
+-->
+    <field name="vm_ip" type="text" size="100" class="inputbox" label="COM_CVL_VM_FORM_LBL_CVLVMLIST_VM_IP" description="COM_CVL_VM_FORM_DESC_CVLVMLIST_VM_IP" filter="safehtml" /> 
+       <field name="vm_ram_size" type="text" size="40" class="inputbox"
+                
+            label="COM_CVL_VM_FORM_LBL_CVLVMLIST_VM_RAM_SIZE"
+            description="COM_CVL_VM_FORM_DESC_CVLVMLIST_VM_RAM_SIZE" 
+                
+                
+                
+                filter="safehtml" /> 
+
+       <field name="vm_cpu_number" type="text" size="40" class="inputbox"
+                
+            label="COM_CVL_VM_FORM_LBL_CVLVMLIST_VM_CPU_NUMBER"
+            description="COM_CVL_VM_FORM_DESC_CVLVMLIST_VM_CPU_NUMBER" 
+                
+                
+                
+                filter="safehtml" /> 
+
+       <field name="vm_disk_size" type="text" size="40" class="inputbox"
+                
+            label="COM_CVL_VM_FORM_LBL_CVLVMLIST_VM_DISK_SIZE"
+            description="COM_CVL_VM_FORM_DESC_CVLVMLIST_VM_DISK_SIZE" 
+                
+                
+                
+                filter="safehtml" /> 
+
+         <field
+                name="state"
+                type="list"
+                label="JSTATUS"
+                description="JFIELD_PUBLISHED_DESC"
+                class="inputbox"
+                size="1"
+                default="1">
+                <option value="1">JPUBLISHED</option>
+                <option value="0">JUNPUBLISHED</option>
+            </field> 
+
+                        <field name="checked_out" type="hidden" filter="unset" />
+                <field name="checked_out_time" type="hidden" filter="unset" />
+
+	</fieldset>
+
+</form>

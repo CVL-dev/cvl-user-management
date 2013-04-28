@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+
+       <field name="created_by" type="createdby" default="" 
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_CREATED_BY"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_CREATED_BY"  /> 
+
+       <field name="organisation" type="text" size="40" class="inputbox"
+        
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_ORGANISATION"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_ORGANISATION" 
+        
+        
+         required="true" 
+        filter="safehtml" /> 
+
+       <field name="driver_id" type="text" size="40" class="inputbox"
+        
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_DRIVER_ID"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_DRIVER_ID" 
+        
+        
+         required="true" 
+        filter="safehtml" /> 
+
+       <field name="appoved_by" type="text" size="40" class="inputbox"
+        
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_APPOVED_BY"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_APPOVED_BY" 
+        
+        
+         required="true" 
+        filter="safehtml" /> 
+
+       <field name="project_group" type="text" size="40" class="inputbox"
+        
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_GROUP"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_GROUP" 
+        
+        
+         required="true" 
+        filter="safehtml" /> 
+
+
+	</fieldset>
+
+</form>

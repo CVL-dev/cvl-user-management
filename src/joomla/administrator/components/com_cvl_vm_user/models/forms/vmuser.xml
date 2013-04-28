@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+
+              <field name="id" type="text" default="0" label="COM_CVL_VM_USER_FORM_LBL_VMUSER_ID"
+            readonly="true" class="readonly"
+            description="JGLOBAL_FIELD_ID_DESC" /> 
+
+       <field name="created_by" type="createdby" default="" 
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_CREATED_BY"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_CREATED_BY"  /> 
+
+ 
+		<field name="filter_created_by" type="user" onchange="this.form.submit();" /> 
+
+       <field name="vm_password" type="text" size="40" class="inputbox"
+        
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_VM_PASSWORD"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_VM_PASSWORD" 
+        
+        
+         required="true" 
+        filter="safehtml" /> 
+
+       <field name="username" type="text" size="40" class="inputbox"
+        
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_USERNAME"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_USERNAME" 
+        
+         validate="username" 
+         required="true" 
+        filter="safehtml" /> 
+
+       <field name="email" type="text" size="40" class="inputbox"
+        
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_EMAIL"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_EMAIL" 
+        
+         validate="email" 
+         required="true" 
+        filter="safehtml" /> 
+
+       <field name="vnc_password" type="text" size="40" class="inputbox"
+        
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_VNC_PASSWORD"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_VNC_PASSWORD" 
+        
+        
+         required="true" 
+        filter="safehtml" /> 
+
+       <field name="organisation" type="text" size="40" class="inputbox"
+        
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_ORGANISATION"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_ORGANISATION" 
+        
+        
+         required="true" 
+        filter="safehtml" /> 
+
+       <field name="driver_id" type="text" size="40" class="inputbox"
+        
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_DRIVER_ID"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_DRIVER_ID" 
+        
+        
+         required="true" 
+        filter="safehtml" /> 
+
+       <field name="name" type="text" size="40" class="inputbox"
+        
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_NAME"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_NAME" 
+        
+         validate="username" 
+         required="true" 
+        filter="safehtml" /> 
+
+       <field name="current_vm_id" type="text" size="40" class="inputbox"
+        
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_CURRENT_VM_ID"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_CURRENT_VM_ID" 
+        
+        
+         required="true" 
+        filter="safehtml" /> 
+
+       <field name="authentication_token" type="text" size="40" class="inputbox"
+        
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_AUTHENTICATION_TOKEN"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_AUTHENTICATION_TOKEN" 
+        
+        
+         required="true" 
+        filter="safehtml" /> 
+
+       <field name="appoved_by" type="text" size="40" class="inputbox"
+        
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_APPOVED_BY"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_APPOVED_BY" 
+        
+        
+         required="true" 
+        filter="safehtml" /> 
+
+       <field name="register_date" type="timecreated" default="" 
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_REGISTER_DATE"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_REGISTER_DATE"  /> 
+
+       <field name="group" type="text" size="40" class="inputbox"
+        
+            label="COM_CVL_VM_USER_FORM_LBL_VMUSER_GROUP"
+            description="COM_CVL_VM_USER_FORM_DESC_VMUSER_GROUP" 
+        
+        
+         required="true" 
+        filter="safehtml" /> 
+
+         <field
+        name="state"
+        type="list"
+        label="JSTATUS"
+        description="JFIELD_PUBLISHED_DESC"
+        class="inputbox"
+        size="1"
+        default="1">
+        <option value="1">JPUBLISHED</option>
+        <option value="0">JUNPUBLISHED</option>
+    </field> 
+
+                        <field name="checked_out" type="hidden" filter="unset" />
+        <field name="checked_out_time" type="hidden" filter="unset" /> 
+
+ </fieldset> 
+
+ <fieldset 
+                        name="accesscontrol">
+                       <field name="asset_id" type="hidden" filter="unset" />
+                       <field name="rules"
+                            type="rules"
+                            label="JFIELD_RULES_LABEL"
+                            translate_label="false"
+                            filter="rules"
+                            validate="rules"
+                            class="inputbox"
+                            component="com_cvl_vm_user"
+                            section="vmuser"
+                        />
+
+	</fieldset>
+
+</form>
