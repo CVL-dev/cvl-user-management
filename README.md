@@ -179,6 +179,8 @@ the `siteurl` is appropriate along with the database options:
 
 Check all settings that are marked with `EDIT_THIS`.
 
+Be sure to set `secret` to a random string of uppercase/lowercase alphanum characters.
+
 #### Configure Python
 
 Edit `/opt/cvl-user-management/python/cvl_config.py` and set anything
