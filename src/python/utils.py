@@ -298,26 +298,25 @@ class CreateCvlVm(Task):
             try:
                 cvlfabric.execute(cvlfabric.new_user, username=username, password=password, public_key=vm_public_key)
 
-                # FIXME Temporary disabled to reduce VM build time for debugging.
-                # self.update_state(state="PROGRESS", meta={'params': params, 'info': 'creating secondary storage on VM',})
-                # logging.debug('Creating secondary storage on the VM')
-                # cvlfabric.execute(cvlfabric.create_secondary_storage)
+                self.update_state(state="PROGRESS", meta={'params': params, 'info': 'creating secondary storage on VM',})
+                logging.debug('Creating secondary storage on the VM')
+                cvlfabric.execute(cvlfabric.create_secondary_storage)
 
-                # self.update_state(state="PROGRESS", meta={'params': params, 'info': 'setting VM hostname',})
-                # logging.debug('Setting VM\'s hostname')
-                # cvlfabric.execute(cvlfabric.setup_networking, nice_vm_name=vm_name)
+                self.update_state(state="PROGRESS", meta={'params': params, 'info': 'setting VM hostname',})
+                logging.debug('Setting VM\'s hostname')
+                cvlfabric.execute(cvlfabric.setup_networking, nice_vm_name=vm_name)
 
-                # self.update_state(state="PROGRESS", meta={'params': params, 'info': 'installing base CVL system',})
-                # logging.debug('Installing base CVL system')
-                # cvlfabric.execute(cvlfabric.install_cvl_base)
+                self.update_state(state="PROGRESS", meta={'params': params, 'info': 'installing base CVL system',})
+                logging.debug('Installing base CVL system')
+                cvlfabric.execute(cvlfabric.install_cvl_base)
 
-                # self.update_state(state="PROGRESS", meta={'params': params, 'info': 'installing CVL system (system extension and imaging tools)',})
-                # logging.debug('Installing CVL system (system extension and imaging tools)')
-                # cvlfabric.execute(cvlfabric.install_cvl_system)
+                self.update_state(state="PROGRESS", meta={'params': params, 'info': 'installing CVL system (system extension and imaging tools)',})
+                logging.debug('Installing CVL system (system extension and imaging tools)')
+                cvlfabric.execute(cvlfabric.install_cvl_system)
 
-                # self.update_state(state="PROGRESS", meta={'params': params, 'info': 'installing fail2ban',})
-                # logging.debug('Installing fail2ban')
-                # cvlfabric.execute(cvlfabric.install_fail2ban)
+                self.update_state(state="PROGRESS", meta={'params': params, 'info': 'installing fail2ban',})
+                logging.debug('Installing fail2ban')
+                cvlfabric.execute(cvlfabric.install_fail2ban)
 
             except:
                raise ValueError, traceback.format_exc() # avoid SystemExit...
