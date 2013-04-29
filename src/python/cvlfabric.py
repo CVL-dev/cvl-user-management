@@ -4,7 +4,7 @@ import utils
 
 env.hosts                   = []
 env.user                    = 'root'
-env.key_filename            = '/var/www/.ssh/' + cvl_config.VM_KEY_NAME
+env.key_filename            = cvl_config.VM_KEY_LOCATION + '/' + cvl_config.VM_KEY_NAME
 env.disable_known_hosts     = True
 
 import fabric.state
