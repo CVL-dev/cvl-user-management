@@ -3,8 +3,8 @@ cvl-user-management
 
 ## Authors:
 
-* Jupiter Hu: Joomla UI, initial Python code.
-* Carlo Hamalainen: Python code that uses `celery` and `fabric`.
+* Jupiter Hu: Joomla UI, database structure, initial Python code.
+* Carlo Hamalainen: Python code that uses `celery`, `fabric`, `sqlobject`, etc.
 
 ## Moving parts
 
@@ -57,7 +57,6 @@ Install fabric:
     sudo yum -y install gcc python-devel
     sudo easy_install pip
     sudo pip install fabric
-    sudo pip install Pycrypto
 
 Install celery:
 
@@ -71,13 +70,6 @@ Install SQLObject:
 Install ssh:
 
     sudo pip install ssh
-
-Install pycrypto (optional?):
-
-    wget https://ftp.dlitz.net/pub/dlitz/crypto/pycrypto/pycrypto-2.6.tar.gz
-    tar zxf pycrypto-2.6.tar.gz
-    cd pycrypto-2.6
-    sudo python setup.py install
 
 ## Configuration
 
@@ -222,6 +214,8 @@ Run `mysql -u joomla -p` and enter these SQL commands:
 
 This creates a user called `admin2` with password `secret`. **Change this password immediately as it is a known example username/password pair in the Joomla documentation**.
 
+FIXME do not use a known password hash
+
 To manually delete this user (proceed with caution!):
 
     use CvlUserManagementAdmin3;
@@ -236,17 +230,27 @@ Python errors go to `/var/log/httpd/error_log` or similar, depending on your htt
 
 ### redis
 
-Run the redis server in a screen session (TODO: crontab/flock entry):
+For normal use, run in a screen:
 
     /opt/redis-2.6.12/src/redis-server
 
+Crontab line for production:
+
+    * * * * * /usr/bin/flock -n /tmp/flock.redis.lock /opt/redis-2.6.12/src/redis-server &> /opt/redis.log
+
 ### celery
 
-Run the celery server in a screen session (TODO: crontab/flock entry):
+Normal use, run in a screen:
 
     cd /opt/cvl-user-management/python && celery -A utils worker --loglevel=info --no-color
 
-If this fails with `ImportError: cannot import name OSRNG` then you may need to comment out
+Production use, in crontab:
+
+    * * * * * /usr/bin/flock -x -n /tmp/flock.celery.lock /opt/cvl-user-management/python/run_celery.sh &> /opt/celery.log
+
+making sure that the paths in `/opt/cvl-user-management/python/run_celery.sh` are correct.
+
+If celery fails to start with an error like `ImportError: cannot import name OSRNG` then you may need to comment out
 a few lines in `/usr/lib64/python2.6/site-packages/Crypto/Util/number.py`:
 
     # You need libgmp v5 or later to get mpz_powm_sec.  Warn if it is not available.
@@ -263,6 +267,34 @@ for the User Management system.
 
 ## Notes
 
+### Monitoring the job queue:
+
+    $ python /opt/cvl-user-management/python/dump_work_queue.py
+    a90679f4-cead-41d1-b7fc-4fbcd3bd6b90
+    {'info': 'checking for existing VM', 'params': ('UM-TEST monday04', 'carlo', 'carlo@example.com', 0, '737', '/opt/cvl-user-management/python', 2, '1')}
+    PROGRESS
+
+### Manually editing the SQL tables:
+
+    cd /opt/cvl-user-management/python/
+    ipython
+
+then
+
+    %run cvlsql
+
+For example, delete a VM:
+
+    vm = Cvl_cvl_vm.select(Cvl_cvl_vm.q.vmServerName=='UM-TEST monday01').getOne()
+
+    # see also delete_user_from_vm() in src/python/cvlsql.py
+    conn = sqlobject.sqlhub.processConnection
+    conn.query(conn.sqlrepr(Delete('Cvl_cvl_server_list', where='vmid={vmid}'.format(vmid=vm.id))))
+
+### Restart celery after editing utils.py
+
+If you make changes to `python/utils.py`, you have to restart the celery server, as it caches task definitions.
+
 ### Save a database snapshot
 
 To save a snapshot of the user management database:
@@ -272,5 +304,7 @@ To save a snapshot of the user management database:
 
 ## TODO
 
-* Are the redirect links needed? see the database snapshot `INSERT INTO` line with `127.0.0.1` IP URLs.
+* Are the redirect links needed? See the database snapshot `INSERT INTO` line with `127.0.0.1` IP URLs.
 * Where to install `query.php`?
+* Commands for restarting celery and redis.
+* Use upstart or similar for running redis and celery instead of every-minute cron jobs.
