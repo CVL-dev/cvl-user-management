@@ -107,16 +107,6 @@ class JCvlLibrary extends JObject
         JFactory::getMailer()->sendMail(self::$config_mailfrom, self::$config_fromname, $emailAddress, $subject, $body);    
     }
 
-    public function newVmNotification($email, $username, $ip) {
-        $subject = "Create VM instance notification";
-        $body = "Hi " . $username . ",\n\n";
-        $body .= "Your request to create a VM instance is succeeded, the CVL virtual desktop software is installed.\n\n";
-        $body .= "Regards,\n\n";
-        $body .= self::$config_fromname;
-
-        $this->sendEmail($email, $subject, $body);
-    }
-    
     public function userAccountNotification($email, $fullName, $username, $password, $ip) {
         $subject = "User account register notification";
         $body = "Hi " . $fullName . ",\n\n";
