@@ -5,7 +5,7 @@ import MySQLdb, re, sys
 import traceback 
 
 import cvl_config
-from CvlVmState import VmState
+from enums import VmState
 import logging
 
 def DatabaseConnection():
