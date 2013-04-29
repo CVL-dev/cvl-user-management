@@ -291,6 +291,8 @@ For example, delete a VM:
     conn = sqlobject.sqlhub.processConnection
     conn.query(conn.sqlrepr(Delete('Cvl_cvl_server_list', where='vmid={vmid}'.format(vmid=vm.id))))
 
+    vm.delete(vm.id)
+
 ### Restart celery after editing utils.py
 
 If you make changes to `python/utils.py`, you have to restart the celery server, as it caches task definitions.
