@@ -226,7 +226,17 @@ To manually delete this user (proceed with caution!):
 
 ### logging
 
-Python errors go to `/var/log/httpd/error_log` or similar, depending on your httpd configuration.
+For general errors, check `/var/log/httpd/error_log` or `/var/log/httpd/ssl_error_log`, depending on your httpd configuration.
+
+Celery (see below for how to run) logs to stdout by default.
+
+PHP code will mostly log to `/tmp/cvldesktopinstaller_php.log`.
+
+Python code (not in celery jobs) will log to the local log server which can be started with:
+
+    cd /opt/cvl-user-management/python/ && python CvlLogServer.py
+
+and then view `/tmp/cvldesktopinstaller.log`.
 
 ### redis
 
