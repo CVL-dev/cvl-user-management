@@ -74,7 +74,7 @@ class RunCommand:
                 self.result = self.TerminateServer()
 
             elif self.action == enums.Action.AddServer:
-                logging.debug("Terminate VM instance")
+                logging.debug("AddServer")
                 self.result = self.AddServer()
 
             else:
@@ -191,11 +191,48 @@ class RunCommand:
         return True
  
     def AddServer(self):
-        # FIXME Not implemented
         #from CvlAddVm import AddVm
         #process = AddVm(self.path, self.userId, self.serverName, self.nectarId)
         #if process.run() == False:
         #    logging.error("Failed to add VM " + self.serverName)
         #    return False
-        print 'Not implemented.'
-        return False
+        #return True
+
+        logging.debug('AddServer: ' + str((self.userId, self.serverName, self.nectarId,)))
+
+        try:
+            vm_name = self.serverName
+
+            vm_info = utils.get_vm_info(vm_name)
+            logging.debug('vm_info: ' + str(vm_info))
+
+            vm_ip       = vm_info['ip']
+            vm_ram      = vm_info['ram']
+            vm_disk     = vm_info['disk']
+            vm_id       = vm_info['id']
+            vm_vcpus    = vm_info['vcpus']
+
+            vm_db = cvlsql.sql_add_vm(0, vm_name, vm_id, vm_ip, vm_ram, vm_vcpus, vm_disk, self.projectGroup, self.nectarId)
+
+            logging.debug('Added vm to database: ' + str(vm_db))
+
+            user_db    = Cvl_users.select(Cvl_users.q.id==self.userId).getOne()
+            user_vm_db = Cvl_cvl_vm_user.select(Cvl_cvl_vm_user.q.id==self.userId).getOne()
+
+            logging.debug('username: ' + user_db.username)
+
+            cvlsql.add_user_to_vm(Cvl_users.select(Cvl_users.q.id==self.userId).getOne(), vm_db)
+            vm_db.state = enums.VmState.Active
+
+            vm_db      = cvlsql.sql_get_vm(vm_ip)
+
+            logging.debug('creating user account <%s> on vm %s' % (user_db.username, vm_ip,))
+
+            cvlfabric.env.hosts = [vm_ip]
+            cvlfabric.execute(cvlfabric.new_user, username=user_db.username, password=user_vm_db.vmPassword, public_key=user_vm_db.publicKey)
+            cvlsql.add_user_to_vm(user_db, vm_db)
+
+            return True
+        except:
+            logging.debug('error adding unmanaged VM to system: ' + traceback.format_exc())
+            return False

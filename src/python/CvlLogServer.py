@@ -7,7 +7,6 @@ import SocketServer
 import struct
 import cvl_config
 import sys
-import logging
 
 class LogRecordStreamHandler(SocketServer.StreamRequestHandler):
     """Handler for a streaming logging request.
