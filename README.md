@@ -209,12 +209,22 @@ Edit `/var/www/html/cvl/libraries/cvl/library.php` and ensure that
 Run `mysql -u joomla -p` and enter these SQL commands:
 
     use CvlUserManagementAdmin3;
-    INSERT INTO `Cvl_users` (`name`, `username`, `password`, `params`) VALUES ('Administrator2', 'admin2', 'd2064d358136996bd22421584a7cb33e:trd7TvKHx6dMeoMmBVxYmg0vuXEA4199', '');
+    INSERT INTO `Cvl_users` (`name`, `username`, `password`, `params`) VALUES ('Administrator2', 'admin2', '', '');
     INSERT INTO `Cvl_user_usergroup_map` (`user_id`,`group_id`) VALUES (LAST_INSERT_ID(),'8');
+    SELECT ID from Cvl_users where username = 'Administrator2';
 
-This creates a user called `admin2` with password `secret`. **Change this password immediately as it is a known example username/password pair in the Joomla documentation**.
+To set the password, use this Python script, which prints the SQL command to use:
 
-FIXME do not use a known password hash
+    import getpass
+    import hashlib
+    import random
+    import string
+
+    password = getpass.getpass('password (not echoed): ')
+    salt = ''.join(random.choice(string.ascii_lowercase + string.ascii_uppercase + string.digits) for x in range(32))
+    password_hash = hashlib.md5(password + salt).hexdigest()
+
+    print "update Cvl_users set password='" + password_hash + ':' + salt + "' where id = ...;"
 
 To manually delete this user (proceed with caution!):
 
@@ -317,7 +327,6 @@ To save a snapshot of the user management database:
 ## TODO
 
 * Are the redirect links needed? See the database snapshot `INSERT INTO` line with `127.0.0.1` IP URLs.
-* Where to install `query.php`?
 * Commands for restarting celery and redis.
 * Use upstart or similar for running redis and celery instead of every-minute cron jobs.
 * The function `userAccountNotification` in `libraries/cvl/library.php` sends out a new-user email with the
