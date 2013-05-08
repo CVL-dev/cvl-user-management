@@ -262,7 +262,7 @@ Crontab line for production:
 
 Normal use, run in a screen:
 
-    cd /opt/cvl-user-management/python && celery -A utils worker --loglevel=info --no-color
+    cd /opt/cvl-user-management/python && celery -A utils worker --loglevel=info --no-color -Q usermanagement
 
 Production use, in crontab:
 
@@ -331,3 +331,6 @@ To save a snapshot of the user management database:
 * Use upstart or similar for running redis and celery instead of every-minute cron jobs.
 * The function `userAccountNotification` in `libraries/cvl/library.php` sends out a new-user email with the
 password in plain text. This will probably change when the new VM/software management stuff has been worked out.
+
+* Update the celery/redis stuff to use Supervisor
+* Update the celery stuff to use the right job queue.

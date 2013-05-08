@@ -101,7 +101,7 @@ class RunCommand:
     def CreateServer(self):
         try:
             from utils import CreateCvlVm
-            job = CreateCvlVm.delay(self.serverName, self.username, self.email, self.cpu, self.userId, self.path, self.projectGroup, self.nectarId)
+            job = CreateCvlVm.apply_async(args=[self.serverName, self.username, self.email, self.cpu, self.userId, self.path, self.projectGroup, self.nectarId], kwargs={}, queue='usermanagement')
             logging.debug('CreateServer: celery job: ' + str(job))
             utils.send_email(cvl_config.CVL_HELP_EMAIL,
                              "CVL project: notification of VM build",
@@ -164,7 +164,7 @@ class RunCommand:
         # new_unix_password     = new Unix password, encrypted
 
         for (vm_id, vm_ip, vm_name) in cvlsql.get_users_vms(self.userId):
-            job = utils.ChangePasswordsOnVMs.delay(vm_name, self.username, Cvl_users.select(Cvl_users.q.id==self.userId).getOne().email, new_unix_password)
+            job = utils.ChangePasswordsOnVMs.apply_async([vm_name, self.username, Cvl_users.select(Cvl_users.q.id==self.userId).getOne().email, new_unix_password], kwargs={}, queue='usermanagement')
 
         # Update Joomla password:
         Cvl_users.select(Cvl_users.q.id==self.userId).getOne().password = self.cryptedPassword
