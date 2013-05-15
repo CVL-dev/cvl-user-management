@@ -333,4 +333,3 @@ To save a snapshot of the user management database:
 password in plain text. This will probably change when the new VM/software management stuff has been worked out.
 
 * Update the celery/redis stuff to use Supervisor
-* Update the celery stuff to use the right job queue.
