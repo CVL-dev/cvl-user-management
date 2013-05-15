@@ -331,5 +331,4 @@ To save a snapshot of the user management database:
 * Use upstart or similar for running redis and celery instead of every-minute cron jobs.
 * The function `userAccountNotification` in `libraries/cvl/library.php` sends out a new-user email with the
 password in plain text. This will probably change when the new VM/software management stuff has been worked out.
-
 * Update the celery/redis stuff to use Supervisor
