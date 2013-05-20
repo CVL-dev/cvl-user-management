@@ -332,3 +332,63 @@ To save a snapshot of the user management database:
 * The function `userAccountNotification` in `libraries/cvl/library.php` sends out a new-user email with the
 password in plain text. This will probably change when the new VM/software management stuff has been worked out.
 * Update the celery/redis stuff to use Supervisor
+
+## SUPERVISOR TODO
+
+As root:
+
+    pip install supervisor
+    echo_supervisord_conf > /etc/supervisord.conf
+    wget https://gist.github.com/burakdd/2408866/raw/70374bbb8d53a8fb75c842256e2329ac8c6814f8/supervisord.sh -O /etc/init.d/supervisord
+    chmod +x /etc/init.d/supervisord
+    chkconfig --add supervisord
+    chkconfig supervisord --level 345 on
+
+Start it manually (will be done automatically on the next boot):
+
+    /etc/init.d/supervisord start
+
+Edit `/etc/supervisord.conf`:
+
+    [program:redis]
+    command=/opt/redis-2.6.12/src/redis-server
+    autorestart=true
+    redirect_stderr=true
+    stdout_logfile=/var/log/redis.log
+
+    [program:celery-usermanagement]
+    command=/opt/cvl-user-management/python/run_celery.sh
+    utorestart=true
+    redirect_stderr=true
+    stdout_logfile=/var/log/celery-usermanagement.log
+
+Viewing all celery tasks:
+
+    celery -A novabackup inspect scheduled
+    celery -A novabackup inspect active
+
+Restart:
+
+    /etc/init.d/supervisord restart
+
+Try out the supervisor shell:
+
+    supervisorctl
+
+For example:
+
+# supervisorctl
+celery-novabackups               RUNNING    pid 1587, uptime 1:34:51
+celery-usermanagement            RUNNING    pid 1588, uptime 1:34:51
+redis                            RUNNING    pid 1586, uptime 1:34:51
+supervisor> help
+
+default commands (type help <topic>):
+=====================================
+add    clear  fg        open  quit    remove  restart   start   stop  update
+avail  exit   maintail  pid   reload  reread  shutdown  status  tail  version
+
+supervisor> status
+celery-novabackups               RUNNING    pid 1587, uptime 1:35:01
+celery-usermanagement            RUNNING    pid 1588, uptime 1:35:01
+redis                            RUNNING    pid 1586, uptime 1:35:01
